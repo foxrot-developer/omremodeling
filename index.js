@@ -7,10 +7,10 @@ const HttpError = require('./helpers/http-error');
 const app = express();
 
 const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: process.env.DB_HOST_FREE,
+    user: process.env.DB_USER_FREE,
+    password: process.env.DB_PASSWORD_FREE,
+    database: process.env.DB_NAME_FREE
 });
 
 app.use(express.json());
