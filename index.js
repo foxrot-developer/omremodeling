@@ -1,18 +1,10 @@
-require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql');
 
 const HttpError = require('./helpers/http-error');
+const userRoutes = require('./routes/user-routes');
+const projectRoutes = require('./routes/project-routes');
 
 const app = express();
-
-const db = mysql.createPool({
-    host: process.env.DB_HOST_FREE,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER_FREE,
-    password: process.env.DB_PASSWORD_FREE,
-    database: process.env.DB_NAME_FREE
-});
 
 app.use(express.json());
 
@@ -23,16 +15,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/api/projects', (req, res, next) => {
-    const getProjects = 'SELECT * FROM proyecto';
-    db.query(getProjects, (err, result) => {
-        if (err) {
-            console.log(err);
-            return next(new HttpError('Error occured while fetching projects from database', 500));
-        }
-        res.json({ projects: result });
-    });
-});
+app.use('/api/user', userRoutes);
+
+app.use('/api/project', projectRoutes);
 
 app.use((req, res, next) => {
     throw new HttpError('Route is not valid', 404);
