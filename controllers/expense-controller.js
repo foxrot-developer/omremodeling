@@ -19,4 +19,24 @@ const allExpenses = async (req, res, next) => {
     });
 };
 
+const addExpense = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new HttpError('Invalid data received', 422));
+    }
+
+    const { description, quantity, created_date } = req.body;
+
+    const addExpense = "INSERT INTO gastos (description, precio_previsto, precio_real, diferencia, created_at) VALUES (?, ?, ?, ?, ?);"
+    db.query(addExpense, [description, quantity, quantity, (quantity - quantity), created_date], (err, response) => {
+        if (err) {
+            console.log(err);
+            return next(new HttpError('Error adding expense. Try again!', 500));
+        }
+
+        res.status(201).json({ message: 'Expense added successfully' });
+    });
+};
+
 exports.allExpenses = allExpenses;
+exports.addExpense = addExpense;

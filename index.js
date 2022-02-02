@@ -4,6 +4,7 @@ const HttpError = require('./helpers/http-error');
 const userRoutes = require('./routes/user-routes');
 const projectRoutes = require('./routes/project-routes');
 const expenseRoutes = require('./routes/expense-routes');
+const estimateRoutes = require('./routes/estimate-routes');
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use('/api/user', userRoutes);
 app.use('/api/project', projectRoutes);
 
 app.use('/api/expense', expenseRoutes);
+
+app.use('/api/estimate', estimateRoutes);
 
 app.use((req, res, next) => {
     throw new HttpError('Route is not valid', 404);
