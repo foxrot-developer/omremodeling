@@ -25,7 +25,7 @@ const addExpense = async (req, res, next) => {
         return next(new HttpError('Invalid data received', 422));
     }
 
-    const { description, quantity, created_date } = req.body;
+    const { description, quantity, created_date, id_proyect, user } = req.body;
 
     const addExpense = "INSERT INTO gastos (description, precio_previsto, precio_real, diferencia, created_at) VALUES (?, ?, ?, ?, ?);"
     db.query(addExpense, [description, quantity, quantity, (quantity - quantity), created_date], (err, response) => {
@@ -34,7 +34,17 @@ const addExpense = async (req, res, next) => {
             return next(new HttpError('Error adding expense. Try again!', 500));
         }
 
-        res.status(201).json({ message: 'Expense added successfully' });
+        const photoRecord = "INSERT INTO photos (photo, expense_id, id_proyect, user) VALUES (?, ?, ?, ?);"
+        db.query(photoRecord, [req.file.path, response.insertId, id_proyect, user], (err, resp) => {
+            if (err) {
+                console.log(err);
+                return next(new HttpError('Error creating photo record', 500));
+            }
+
+
+            res.status(201).json({ message: 'Expense added successfully' });
+        });
+
     });
 };
 
