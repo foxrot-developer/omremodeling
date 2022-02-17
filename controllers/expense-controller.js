@@ -27,6 +27,8 @@ const addExpense = async (req, res, next) => {
 
     const { description, quantity, created_date, id_proyect, user } = req.body;
 
+    console.log(req.file);
+
     const addExpense = "INSERT INTO gastos (description, precio_previsto, precio_real, diferencia, created_at) VALUES (?, ?, ?, ?, ?);"
     db.query(addExpense, [description, quantity, quantity, (quantity - quantity), created_date], (err, response) => {
         if (err) {
