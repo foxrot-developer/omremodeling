@@ -56,7 +56,7 @@ const userCheckIn = async (req, res, next) => {
                 return next(new HttpError('Error checking-in, try again!', 500));
             }
             else {
-                const selectedProject = "SELECT telefono, encargado, descripcion, address, estatus FROM proyecto WHERE nombre = ?;"
+                const selectedProject = "SELECT iddepartamento, telefono, encargado, descripcion, address, estatus FROM proyecto WHERE nombre = ?;"
                 db.query(selectedProject, project, async (err, project) => {
                     if (err) {
                         console.log(error);
