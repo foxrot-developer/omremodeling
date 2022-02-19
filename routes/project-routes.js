@@ -12,7 +12,7 @@ router.get('/', projectController.allProjects);
 router.post('/add-extra-work', fileUpload.single('workImage'), [
     check('user_id').not().isEmpty().isInt(),
     check('project_id').not().isEmpty().isInt(),
-    check('description').not().isEmpty(),
+    check('description').optional({ checkFalsy: true }),
     check('image_description').not().isEmpty(),
 ], projectController.addExtraWork);
 
